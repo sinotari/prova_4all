@@ -6,7 +6,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
@@ -17,6 +19,7 @@ public class ComprasTest {
         WebDriver navegador = new ChromeDriver();
         navegador.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         navegador.get("https://shopcart-challenge.4all.com/");
+        navegador.manage().window().maximize();
 
         navegador.findElement((By.id("open-categories-btn"))).click();
         navegador.findElement(By.id("category-1")).click();
@@ -41,12 +44,14 @@ public class ComprasTest {
         WebDriver navegador = new ChromeDriver();
         navegador.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         navegador.get("https://shopcart-challenge.4all.com/");
+        navegador.manage().window().maximize();
 
         navegador.findElement((By.id("open-categories-btn"))).click();
         navegador.findElement(By.id("category-0")).click();
         navegador.findElement(By.id("add-product-0-btn")).click();
         navegador.findElement(By.id("add-product-1-btn")).click();
-        //navegador.findElement(By.id("add-product-2-btn")).click();
+        WebDriverWait wait = new WebDriverWait(navegador, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("add-product-2-btn"))).click();
         navegador.findElement(By.id("open-categories-btn")).click();
         navegador.findElement(By.id("category-all")).click();
         navegador.findElement(By.id("add-product-3-btn")).click();
@@ -59,7 +64,7 @@ public class ComprasTest {
         };
         WebElement quantidade = navegador.findElement(By.id("subtotal-price"));
         String valor = quantidade.getText();
-        assertEquals("R$ 34,00",valor);
+        assertEquals("R$ 36,00",valor);
         navegador.findElement(By.id("finish-checkout-button")).click();
         String pedido = navegador.findElement(By.xpath("//div/h2[@class='sc-dNLxif jyncPa']")).getText();
         assertEquals("Pedido realizado com sucesso!",pedido);
